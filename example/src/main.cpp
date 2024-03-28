@@ -67,6 +67,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
     TranslateHelper::getInstance()->init(&engine);
+    //Exposing Data/Properties to QML Context
+    //Exposing QObject Pointers to QML Context
     engine.rootContext()->setContextProperty("AppInfo",AppInfo::getInstance());
     engine.rootContext()->setContextProperty("SettingsHelper",SettingsHelper::getInstance());
     engine.rootContext()->setContextProperty("InitalizrHelper",InitalizrHelper::getInstance());

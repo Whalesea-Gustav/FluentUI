@@ -15,7 +15,7 @@ if(FLUENTUI_BUILD_STATIC_LIB)
 endif()
 
 #设置可执行文件输出目录
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${FLUENTUI_SOURCE_DIR}/bin/${CMAKE_BUILD_TYPE})
 
 if(APPLE)
     set(APPLICATION_DIR_PATH ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/MacOS)
@@ -47,9 +47,9 @@ add_custom_target(Script-UpdateTranslations
 )
 
 ##生成版本信息头文件
-set(HEADER_FILE_VERSION_PATH ${CMAKE_SOURCE_DIR}/${PROJECT_NAME}/Version.h)
+set(HEADER_FILE_VERSION_PATH ${FLUENTUI_SOURCE_DIR}/${PROJECT_NAME}/Version.h)
 configure_file(
-    ${CMAKE_SOURCE_DIR}/.cmake/Version.h.in
+    ${FLUENTUI_SOURCE_DIR}/.cmake/Version.h.in
     ${HEADER_FILE_VERSION_PATH}
 )
 
@@ -73,12 +73,12 @@ set(EXAMPLE_VERSION_RC_PATH "")
 if(WIN32)
     set(EXAMPLE_VERSION_RC_PATH ${CMAKE_CURRENT_BINARY_DIR}/version_${PROJECT_NAME}.rc)
     configure_file(
-        ${CMAKE_SOURCE_DIR}/.cmake/version_exe.rc.in
+        ${FLUENTUI_SOURCE_DIR}/.cmake/version_exe.rc.in
         ${EXAMPLE_VERSION_RC_PATH}
     )
 configure_file(
-    ${CMAKE_SOURCE_DIR}/.cmake/InstallerScript.iss.in
-    ${CMAKE_SOURCE_DIR}/action-cli/InstallerScript.iss
+    ${FLUENTUI_SOURCE_DIR}/.cmake/InstallerScript.iss.in
+    ${FLUENTUI_SOURCE_DIR}/action-cli/InstallerScript.iss
 )
 endif()
 
@@ -108,19 +108,19 @@ add_dependencies(${PROJECT_NAME} Script-UpdateTranslations)
 if(WIN32)
     if(MSVC)
         if(CMAKE_SIZEOF_VOID_P EQUAL 4)
-            file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${CMAKE_SOURCE_DIR}/3rdparty/msvc/x86/*.dll)
+            file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${FLUENTUI_SOURCE_DIR}/3rdparty/msvc/x86/*.dll)
         elseif(CMAKE_SIZEOF_VOID_P EQUAL 8)
-            file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${CMAKE_SOURCE_DIR}/3rdparty/msvc/x64/*.dll)
+            file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${FLUENTUI_SOURCE_DIR}/3rdparty/msvc/x64/*.dll)
         endif()
     elseif(MINGW)
-        file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${CMAKE_SOURCE_DIR}/3rdparty/mingw/*.dll)
+        file(GLOB_RECURSE 3RDPARTY_DLL_DIR ${FLUENTUI_SOURCE_DIR}/3rdparty/mingw/*.dll)
     endif()
     file(COPY ${3RDPARTY_DLL_DIR} DESTINATION ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 endif()
 
 #复制FluentUI源码到运行目录下，用于脚手架生成
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/source/)
-file(COPY ${CMAKE_SOURCE_DIR}/src/ DESTINATION ${APPLICATION_DIR_PATH}/source/)
+file(COPY ${FLUENTUI_SOURCE_DIR}/src/ DESTINATION ${APPLICATION_DIR_PATH}/source/)
 
 #导入component头文件,不然通过QML_NAMED_ELEMENT生成的c++类会找不到头文件报错
 target_include_directories(${PROJECT_NAME} PRIVATE
@@ -130,7 +130,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 #如果是静态库则需要手动注册插件，导入FluentUI.h头文件
 if(FLUENTUI_BUILD_STATIC_LIB)
     target_include_directories(${PROJECT_NAME} PRIVATE
-        ${CMAKE_SOURCE_DIR}/src
+        ${FLUENTUI_SOURCE_DIR}/src
     )
 endif()
 
@@ -162,9 +162,9 @@ if (CMAKE_BUILD_TYPE MATCHES "Release")
     if (APPLE)
         find_program(QT_DEPLOY_QT NAMES macdeployqt HINTS "${QT_BIN_DIR}")
         add_custom_target(Script-DeployRelease
-            COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_SOURCE_DIR}/dist
-            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${CMAKE_SOURCE_DIR}/dist
-            COMMAND ${QT_DEPLOY_QT} ${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}.app -qmldir=${CMAKE_CURRENT_LIST_DIR}
+            COMMAND ${CMAKE_COMMAND} -E remove_directory ${FLUENTUI_SOURCE_DIR}/dist
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${FLUENTUI_SOURCE_DIR}/dist
+            COMMAND ${QT_DEPLOY_QT} ${FLUENTUI_SOURCE_DIR}/dist/${PROJECT_NAME}.app -qmldir=${CMAKE_CURRENT_LIST_DIR}
             COMMENT "MacOs Deploying Qt Dependencies After Build........."
             SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
@@ -173,9 +173,9 @@ if (CMAKE_BUILD_TYPE MATCHES "Release")
     if(WIN32)
         find_program(QT_DEPLOY_QT NAMES windeployqt HINTS "${QT_BIN_DIR}")
         add_custom_target(Script-DeployRelease
-            COMMAND ${CMAKE_COMMAND} -E remove_directory ${CMAKE_SOURCE_DIR}/dist
-            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${CMAKE_SOURCE_DIR}/dist
-            COMMAND ${QT_DEPLOY_QT} --qmldir=${CMAKE_CURRENT_LIST_DIR} --plugindir ${CMAKE_SOURCE_DIR}/dist/plugins --no-translations --compiler-runtime ${CMAKE_SOURCE_DIR}/dist/${PROJECT_NAME}.exe
+            COMMAND ${CMAKE_COMMAND} -E remove_directory ${FLUENTUI_SOURCE_DIR}/dist
+            COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_RUNTIME_OUTPUT_DIRECTORY} ${FLUENTUI_SOURCE_DIR}/dist
+            COMMAND ${QT_DEPLOY_QT} --qmldir=${CMAKE_CURRENT_LIST_DIR} --plugindir ${FLUENTUI_SOURCE_DIR}/dist/plugins --no-translations --compiler-runtime ${FLUENTUI_SOURCE_DIR}/dist/${PROJECT_NAME}.exe
             COMMENT "Windows Deploying Qt Dependencies After Build........."
             SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/CMakeLists.txt
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}

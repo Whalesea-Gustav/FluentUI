@@ -10,13 +10,15 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/.cmake/)
 
-include(GetGitRevisionDescription)
+include(.cmake/GetGitRevisionDescription.cmake)
 
 option(FLUENTUI_BUILD_EXAMPLES "Build FluentUI demo applications." ON)
 set(FLUENTUI_BUILD_STATIC_LIB OFF)
 
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core)
+
+SET(FLUENTUI_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 add_subdirectory(src)
 

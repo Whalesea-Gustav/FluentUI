@@ -38,6 +38,7 @@ cmake-build-*
 .idea
 
 example/Version.h
+FluentUI/Version.h
 
 action-cli
 dist

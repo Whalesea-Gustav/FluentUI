@@ -43,3 +43,4 @@ action-cli
 dist
 
 *.qm
+*.ts

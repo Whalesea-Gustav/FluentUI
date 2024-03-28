@@ -46,14 +46,14 @@ int main(int argc, char *argv[])
     //fix bug UOSv20 v-sync does not work
     qputenv("QSG_RENDER_LOOP","basic");
 #endif
-    QGuiApplication::setOrganizationName("ZhuZiChu");
-    QGuiApplication::setOrganizationDomain("https://zhuzichu520.github.io");
-    QGuiApplication::setApplicationName("FluentUI");
-    QGuiApplication::setApplicationDisplayName("FluentUI Exmaple");
+    QGuiApplication::setOrganizationName("whalesea");
+    QGuiApplication::setOrganizationDomain("https://github.com/Whalesea-Gustav");
+    QGuiApplication::setApplicationName("GpRenderer");
+    QGuiApplication::setApplicationDisplayName("Gp渲染器");
     QGuiApplication::setApplicationVersion(APPLICATION_VERSION);
     QGuiApplication::setQuitOnLastWindowClosed(false);
     SettingsHelper::getInstance()->init(argv);
-    Log::setup(argv,"example");
+    Log::setup(argv,"test");
 #if (QT_VERSION >= QT_VERSION_CHECK(6, 5, 0))
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #endif

@@ -86,19 +86,20 @@ FluScrollablePage{
     CodeExpander{
         Layout.fillWidth: true
         Layout.topMargin: -1
-        code:'FluComboBox{
-    editable: true
-    model: ListModel {
-        id: model
-        ListElement { text: "Banana" }
-        ListElement { text: "Apple" }
-        ListElement { text: "Coconut" }
-    }
-    onAccepted: {
-        if (find(editText) === -1)
+        code:'FluComboBox
+        {
+        editable: true
+        model: ListModel {
+            id: model
+            ListElement { text: "Banana" }
+            ListElement { text: "Apple" }
+            ListElement { text: "Coconut" }
+        }
+        onAccepted: {
+            if (find(editText) === -1)
             model.append({text: editText})
-    }
-}'
+        }
+        }'
     }
 
 }
